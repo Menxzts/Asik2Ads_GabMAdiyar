@@ -85,54 +85,73 @@ public class MyArrayList <T> implements MyList <T> {
 
     @Override
     public void sort() {
-        if (size == 0) return;
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1 - i; j++) {
-                Comparable<T> current = (Comparable<T>) array[j];
-                T next = (T) array[j + 1];
-                if (current.compareTo(next) > 0) {
-                    T temp = (T) array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
-                }
-            }
-        }
+        if (size < 2) return;
+        bubblesort(size);
     }
 
-
-    @Override
-    public int index0f(Object object){
-        for (int i = 0; i < size; i++) {
-            if (object.equals(array[i])) return i ;
-        }
-        return -1;
+    private void bubblesort(int n) {
+        if (n == 1) return;
+        bubblego(0, n);
+        bubblesort(n - 1);
     }
 
-    @Override
-    public int lastIndex0f(Object object){
-        for (int i=size-1; i>=0;i--){
-            if (object.equals(array[i])) return i;
+    private void bubblego(int j, int n) {
+        if (j >= n - 1) return;
+        Comparable<T> current = (Comparable<T>) array[j];
+        T next = (T) array[j + 1];
+        if (current.compareTo(next) > 0) {
+            T temp = (T) array[j];
+            array[j] = array[j + 1];
+            array[j + 1] = temp;
         }
-        return -1;
+        bubblego(j + 1, n);
     }
 
     @Override
-    public boolean exists(Object object){
-        for (int i=0; i<size;i++){
-            if (object.equals(array[i])) return true;
-        }
-        return false;
+    public int indexOf(Object object) {
+        return indexOfRecursive(object, 0);
+    }
+
+    private int indexOfRecursive(Object object, int index) {
+        if (index >= size) return -1;
+        if (object.equals(array[index])) return index;
+        return indexOfRecursive(object, index + 1);
     }
 
     @Override
-    public Object[] toArray(){
-        Object[] ExactArray = new Object[size];
-        for (int i=0;i<size;i++){
-            ExactArray[i] = array[i];
-        }
-        return ExactArray;
+    public int lastIndexOf(Object object) {
+        return lastIndexOfRecursive(object, size - 1);
     }
 
+    private int lastIndexOfRecursive(Object object, int index) {
+        if (index < 0) return -1;
+        if (object.equals(array[index])) return index;
+        return lastIndexOfRecursive(object, index - 1);
+    }
+
+    @Override
+    public boolean exists(Object object) {
+        return existsRecursive(object, 0);
+    }
+
+    private boolean existsRecursive(Object object, int index) {
+        if (index >= size) return false;
+        if (object.equals(array[index])) return true;
+        return existsRecursive(object, index + 1);
+    }
+
+    @Override
+    public Object[] toArray() {
+        Object[] result = new Object[size];
+        fillArrayRecursive(result, 0);
+        return result;
+    }
+
+    private void fillArrayRecursive(Object[] result, int index) {
+        if (index >= size) return;
+        result[index] = array[index];
+        fillArrayRecursive(result, index + 1);
+    }
     @Override
     public void clear() {
         size = 0;
