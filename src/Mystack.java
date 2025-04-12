@@ -1,16 +1,19 @@
 public class Mystack<T> {
     private MyArrayList<T> stack;
 
+    //Конструктор
     public Mystack() {
         stack = new MyArrayList<>();
     }
 
+    //Adds the element at the top of the stack
     public void push(T item) {
         stack.addLast(item);
     }
 
+    //Retrieves and deletes the topmost element of the stack
     public T pop() {
-        if (isEmpty()) {
+        if (Empty()) {
             return null;
         }
         T top = stack.getLast();
@@ -18,17 +21,20 @@ public class Mystack<T> {
         return top;
     }
 
+    //Returns a reference to the topmost element of the stack
     public T peek() {
-        if (isEmpty()) {
+        if (Empty()) {
             return null;
         }
         return stack.getLast();
     }
 
-    public boolean isEmpty() {
+    //Returns whether the stack is empty
+    public boolean Empty() {
         return stack.size() == 0;
     }
 
+    //Returns the size of the stack
     public int size() {
         return stack.size();
     }
